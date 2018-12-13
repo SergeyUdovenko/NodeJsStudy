@@ -1,0 +1,29 @@
+{
+  "name": "node-js-study",
+  "version": "1.0.0",
+  "description": "Node.js Homework Application",
+  "main": "app.js",
+  "scripts": {
+    "babel-node": "babel-node --presets=env",
+	"start": "nodemon --exec npm run babel-node -- app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SergeyUdovenko/NodeJsStudy.git"
+  },
+  "author": "Serhii Udovenko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SergeyUdovenko/NodeJsStudy/issues"
+  },
+  "homepage": "https://github.com/SergeyUdovenko/NodeJsStudy#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "nodemon": "^1.18.7"
+  }
+}
