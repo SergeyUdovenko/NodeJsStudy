@@ -1,5 +1,4 @@
 import { Dirwatcher } from './dirwatcher';
-const fs = require('fs');
 const csv = require('csvtojson');
 
 

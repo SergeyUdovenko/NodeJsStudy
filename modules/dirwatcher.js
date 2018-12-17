@@ -14,36 +14,42 @@ export class Dirwatcher extends EventEmitter {
         let filesArr = [];
         let newItemsList = [];
         fs.readdir(path, (err, files) => {
-            filesArr = files.map( file => {
+            try {
+                filesArr = files.map( file => {
 
-                if ( Object.keys(self.filesList).some( key => key === file ) ) {
-                    self.filesList[file] = "old"
-                } else {
-                    self.filesList[file] = "new"
-                }
-
-                return file;
-
-            });
-
-            Object.keys(self.filesList).forEach( key  => {
-                if( !filesArr.some( el => el === key) ) {
-                    delete self.filesList[key];
-                } 
-            })
-            if(Object.keys(self.filesList).some( key => self.filesList[key] === 'new' )) {
-                newItemsList = Object.keys(self.filesList).filter( val => self.filesList[val] === 'new').map( val => {
-                    return `${self.path}/${val}`;
+                    if ( Object.keys(self.filesList).some( key => key === file ) ) {
+                        self.filesList[file] = "old"
+                    } else {
+                        self.filesList[file] = "new"
+                    }
+    
+                    return file;
+    
                 });
+    
+                Object.keys(self.filesList).forEach( key  => {
+                    if( !filesArr.some( el => el === key) ) {
+                        delete self.filesList[key];
+                    } 
+                })
                 
-                this.emit('changed' , newItemsList)
+                if(Object.keys(self.filesList).some( key => self.filesList[key] === 'new' )) {
+                    newItemsList = Object.keys(self.filesList).filter( val => self.filesList[val] === 'new').map( val => {
+                        return `${self.path}/${val}`;
+                    });
+                    
+                    this.emit('changed' , newItemsList)
+                }
+                setTimeout( () => {
+                    this.watch(this.path, this.delay)
+                } ,delay)
+
+            } catch(err) {
+                console.log(err);
             }
             //console.log(self.filesList);
 
         })
-        setTimeout( () => {
-            this.watch(this.path, this.delay)
-        } ,delay)
 
         return this;
     }
