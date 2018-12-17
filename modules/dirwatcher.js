@@ -1,24 +1,19 @@
 const fs = require('fs');
 const EventEmitter = require('events');
-const csv = require('csvtojson');
 
-class DirwatchEvent extends EventEmitter {};
-
-export const dirwatch = new DirwatchEvent()
-
-export class Dirwatcher {
-    constructor(path, delay){
-        this.path = path;
-        this.delay = delay;
+export class Dirwatcher extends EventEmitter {
+    constructor(){
+        super();
         this.filesList = {};
-        this.watch();
     }
 
-    watch(path, delay = this.delay) {
+    watch(path, delay) {
         const self = this;
+        this.path = path;
+        this.delay = delay;
         let filesArr = [];
         let newItemsList = [];
-        fs.readdir(this.path, (err, files) => {
+        fs.readdir(path, (err, files) => {
             filesArr = files.map( file => {
 
                 if ( Object.keys(self.filesList).some( key => key === file ) ) {
@@ -36,17 +31,20 @@ export class Dirwatcher {
                     delete self.filesList[key];
                 } 
             })
-
-            newItemsList = Object.keys(self.filesList).filter( val => self.filesList[val] === 'new')
-
-            Object.keys(self.filesList).some( key => self.filesList[key] === 'new' ) && dirwatch.emit('changed' , newItemsList) ;
-            
-
+            if(Object.keys(self.filesList).some( key => self.filesList[key] === 'new' )) {
+                newItemsList = Object.keys(self.filesList).filter( val => self.filesList[val] === 'new').map( val => {
+                    return `${self.path}/${val}`;
+                });
+                
+                this.emit('changed' , newItemsList)
+            }
             //console.log(self.filesList);
 
         })
-        setInterval( () => {
-            this.watch()
+        setTimeout( () => {
+            this.watch(this.path, this.delay)
         } ,delay)
+
+        return this;
     }
 }

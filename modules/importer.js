@@ -1,66 +1,35 @@
-import { dirwatch } from './dirwatcher';
+import { Dirwatcher } from './dirwatcher';
 const fs = require('fs');
 const csv = require('csvtojson');
 
 
 export class Importer {
-    constructor( path ){
-        this.path = path;
-        this.dirwatcher = dirwatch;
-        this.resultObject = {};
+    constructor( ){
+        this.dirwatcher = new Dirwatcher();
     }
 
-    import(path = this.path){
-        const self = this;
-        const files = fs.readdirSync(path);
+    import(path){
         const promise = new Promise(function(resolve, reject){
-            files.forEach(element => {
-                const pathToFile = `${path}/${element}`
+            path.forEach(path => {
                 csv()
-                .fromFile(pathToFile)
+                .fromFile(path)
                 .then((jsonObj)=>{
-                    self.resultObject[element] = jsonObj;
-                    resolve(jsonObj)
-                }).then( (jsonObj) =>{
-                    resolve(jsonObj);
+                    console.log(jsonObj)
                 });
                 
             });
-        }).then( (data) => {
-            console.log(data)
         });
         return promise;
     }
 
-    importSync(path = this.path) {
-        const self = this;
-        const files = fs.readdirSync(path)
-        files.forEach(element => {
-            const pathToFile = `${path}/${element}`
+    importSync(path) {
+        path.forEach(path => {
             csv()
-            .fromFile(pathToFile)
+            .fromFile(path)
             .then((jsonObj)=>{
-                self.resultObject[element] = jsonObj;
-                console.log(jsonObj);
+                console.log(jsonObj)
             });
-        });
-        
-    }
-
-    dirWatchListener() {
-        const self = this;
-       
-
-        self.dirwatcher.on('changed', (data) => {
-            data.forEach(element => {
-                const pathToFile = `${self.path}/${element}`
-                csv()
-                .fromFile(pathToFile)
-                .then((jsonObj)=>{
-                    self.resultObject[element] = jsonObj;
-                    console.log(jsonObj);
-                })
-            });
+            
         });
     }
 

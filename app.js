@@ -1,12 +1,16 @@
 import * as config from './config/config.json';
 import { User, Product } from './models';
-import { Dirwatcher, Importer } from './modules';
+import * as modules from './modules';
 
 console.log(config.name);
 const user = new User();
 const product = new Product();
 
-const dirwatcher = new Dirwatcher('./data', 10000);
-const importer = new Importer('./data');
+const dirwatcher = new modules.Dirwatcher();
+const importer = new modules.Importer('./data');
 
-importer.dirWatchListener();
+dirwatcher.watch('./data', 3000)
+  .on('changed', (filePath, item) => importer.import(filePath))
+  .on('error', err => console.log(`Error emitted: ${err.message}`));
+
+//importer.dirWatchListener();
