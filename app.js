@@ -9,8 +9,8 @@ const product = new Product();
 const dirwatcher = new modules.Dirwatcher();
 const importer = new modules.Importer('./data');
 
-dirwatcher.watch('./data', 3000)
-  .on('changed', (filePath, item) => importer.import(filePath))
-  .on('error', err => console.log(`Error emitted: ${err.message}`));
+//dirwatcher.watch('./data', 3000)
+  //.on('changed', (filePath, item) => importer.import(filePath))
+  //.on('error', err => console.log(`Error emitted: ${err.message}`));
 
 //importer.dirWatchListener();
