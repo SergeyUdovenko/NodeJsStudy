@@ -1,99 +1,130 @@
-// var program = require('commander');
+var program = require('commander');
+var through2 = require('through2');
+var fs = require('fs');
+const csv=require('csvtojson');
 
-// program
-// 	.version('0.1.0')
-// 	.option('-a, --actions', 'Add action type')
-// 	.option('-f, --file', 'Add file path')
-// 	.option('-h, --help', 'Request Help')
-// 	.parse(process.argv);
-
-// console.log(program.actions)
-
-
-// if(program.actions) {
-// 	console.log('-actions worked')
-// 	if(program.file) {
-// 		console.log(' -file called as 2nd argument')
-// 	}
-// }
+program
+	.version('0.1.0')
+	.option('-a, --action [actionName, arguments]', 'Add action type')
+	.option('-f, --file [filePath]', 'Add file path')
+	.option('-h, --help []', 'Request Help')
+	.parse(process.argv);
 
 
-function reverse(str) {
-	if(typeof str === 'string' ) {
-		return console.log([...str].reverse().join(""))
+if (program.rawArgs.length <= 2) {
+	console.log('The module should be called with arguments');
+	printHelpMsg();
+	process.exit();
+}
+
+if (program.rawArgs[2] === '--help' || program.rawArgs[2] === '-h') {
+	printHelpMsg();
+	process.exit();
+}
+
+if (program.action) {
+	const actionName = program.action;
+	let path
+	if(program.file) {
+		path = program.file;
 	}
-}
 
-function transform(str) {
-	return console.log(str.toUpperCase());
-}
-
-function outputFile(filePath) {
-
-}
-
-function convertFromFile(filePath) {
-
-}
-
-function converToFile(filePath) {
-
-}
-
-const actions = process.argv.slice(2);
-
-function commandLineHandler() {
-	if( actions[0] === '--help' || actions[0] === '-h' ) {
-		console.log(
-`					Please use --action or -a for action possible methods for action: 	
+	switch (actionName) {
+		case 'reverse':
+			reverse();
+			break;
+		case 'transform':
+			transform()
+			break;
+		case 'outputFile':
+			outputFile(path)
+			break;
+		case 'convertFromFile':
+			convertFromFile(path);
+			break;
+		case 'convertToFile':
+			convertToFile(path);
+			break;
+		default:
+			console.log(
+				`Please choose one of possible options:
 						reverse
 						transform
 						ontpurFile
 						convertFromFile
-						convertToFile
-					Optional you can use -f or --file for specifying file name
-					Use -h or --help for getting help again=)`)
-		return;
-	}
-
-	if( actions[0].indexOf('-a') === 0 || actions[0].indexOf('--action') === 0 ) {
-		let argumentsToProceed;
-		if( actions[0].indexOf('=') > 0 ) {
-			argumentsToProceed = actions[0].split('=')[1];
-		} else if (actions[1] !== '--file' || actions[1] !== '-f') {
-			argumentsToProceed = actions[1];
-		}
-		console.log(argumentsToProceed)
-		switch(argumentsToProceed){
-			case 'reverse': 
-				const textToReverse = actions[actions.findIndex((el) => el.indexOf('reverse') > -1 ) + 1 ]
-				reverse(textToReverse);
-				break;
-			case 'transform':
-				const textToTransform = actions[actions.findIndex((el) => el.indexOf('transform') > -1 ) + 1 ]
-				transform(textToTransform);
-				break;
-			case 'outputFile':
-				onputFile(path)
-				break;
-			case 'convertFromFile':
-				convertFromFile(path);
-				break;
-			case 'convertToFile':
-				convertFromFile(path);
-				break;
-			default: 
-				console.log(
-					`Please choose one of possible options:
-							reverse
-							transform
-							ontpurFile
-							convertFromFile
-							convertToFile`
-					)
-		}
-	} else {
-		console.log(`Please use -a or --action first, for detailed information use -h or --help`)
+						convertToFile`
+			)
 	}
 }
-commandLineHandler();
+
+function reverse() {
+	process.stdin
+		.pipe(through2(function (chunk, enc, next) {
+			this.push(chunk.toString().split('').reverse().join(''));
+			return next();
+		}))
+		.pipe(process.stdout)
+}
+
+function transform() {
+	process.stdin
+		.pipe(through2(function (chunk, enc, next) {
+			const transformData = chunk.toString().toUpperCase();
+			this.push(transformData);
+			next();
+		}))
+		.pipe(process.stdout)
+}
+
+function outputFile(filePath) {
+	if(!filePath) {
+		return console.log('File path is incorrect, use -f or --file to clarify correct pass after action ');
+	}
+	if (!fs.existsSync(filePath)) {
+		return console.log('File path is incorrect: ', filePath);
+	}
+
+	fs.createReadStream(filePath)
+		.pipe(process.stdout)
+}
+
+function convertFromFile(filePath) {
+	if(!filePath) {
+		return console.log('File path is incorrect, use -f or --file to clarify correct pass after action ');
+	}
+	if (!fs.existsSync(filePath)) {
+		return console.log('File path is incorrect: ', filePath);
+	}
+
+	fs.createReadStream(filePath)
+		.pipe(csv())
+		.pipe(process.stdout)
+}
+
+function convertToFile(filePath) {
+	if(!filePath) {
+		return console.log('File path is incorrect, use -f or --file to clarify correct pass after action ');
+	}
+	if (!fs.existsSync(filePath)) {
+		return console.log('File path is incorrect: ', filePath);
+	}
+
+
+	const jsonPath = filePath.substring(filePath.lastIndexOf('/')+1).replace(/\..+/, '.json');
+	const writable = fs.createWriteStream(jsonPath);
+	fs.createReadStream(filePath)
+		.pipe(csv())
+		.pipe(writable)
+}
+
+function printHelpMsg() {
+	console.log(
+		`Please use --action or -a for action possible methods for action: 	
+	reverse
+	transform
+	ontpurFile
+	convertFromFile
+	convertToFile
+Optional you can use -f or --file for specifying file name
+Use -h or --help for getting help again=)`)
+}
