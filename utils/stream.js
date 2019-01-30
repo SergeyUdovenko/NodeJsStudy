@@ -1,13 +1,15 @@
 var program = require('commander');
 var through2 = require('through2');
 var fs = require('fs');
-const csv=require('csvtojson');
+const csv = require('csvtojson');
 
 program
 	.version('0.1.0')
 	.option('-a, --action [actionName, arguments]', 'Add action type')
 	.option('-f, --file [filePath]', 'Add file path')
 	.option('-h, --help []', 'Request Help')
+	.option('--cssBundler', 'Handle css bundler')
+	.option('-p, --path [filePath]', 'Add path to css')
 	.parse(process.argv);
 
 
@@ -19,8 +21,62 @@ if (program.rawArgs.length <= 2) {
 
 if (program.rawArgs[2] === '--help' || program.rawArgs[2] === '-h') {
 	printHelpMsg();
+}
+
+if(program.cssBundler) {
+	const filePath = program.path;
+	let contentToWrite = [];
+	if(!filePath) {
+		console.log('Please enter correct path. You can use -p or --path');
+	}
+	if (!fs.existsSync(filePath)) {
+		return console.log('File path is incorrect: ', filePath);
+	}
+	console.log( typeof filePath);
+	let list = fs.readdirSync(filePath)
+	let dataToWrite = [];
+	const dataToAdd = `.ngmp18 {
+	background-color: #fff;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+	.ngmp18__hw3 {
+	color: #333;
+}
+
+.ngmp18__hw3--t7 {
+	font-weight: bold;
+}
+	`
+
+	let listPath = list.map((file) => {
+		return `${filePath}\/${file}`
+	})
+
+	listPath.forEach((filePath)=> {
+		const data = fs.readFileSync(filePath).toString();
+		dataToWrite.push(data);
+	});
+
+	dataToWrite.push(dataToAdd);
+
+	const dataToSend = dataToWrite.join('\n');
+	const generatedFileName = `${filePath}\/bundle.css`;
+
+	try {
+		fs.appendFileSync(generatedFileName, dataToSend);
+		console.log('The "data to append" was appended to file!');
+	}
+	catch (err) {
+		console.log(err)
+	}
+	
 	process.exit();
 }
+
 
 if (program.action) {
 	const actionName = program.action;
@@ -56,7 +112,6 @@ if (program.action) {
 			)
 	}
 }
-
 function reverse() {
 	process.stdin
 		.pipe(through2(function (chunk, enc, next) {
