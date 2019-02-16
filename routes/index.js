@@ -1,49 +1,14 @@
 const router = require('express').Router();
-const usersData = require('../data/users');
-const productsData = require('../data/products');
-const users = usersData.users || [];
-const products = productsData.products || [];
+const Controllers = require('../controllers');
 
-router.route('/api/users').get((req, res, next) => {
-  res.json(users);
-  next();
-});
+router.route('/api/users').get(Controllers.users.getAllUsers);
 
 router.route('/api/products')
-  .get((req, res, next) => {
-    res.json(products);
-    next();
-  })
-  .post((req, res, next) => {
-    const product = req.body;
-    products.push(product);
-    res.json(product);
-    next();
-  });
+  .get(Controllers.products.getAllProducts)
+  .post(Controllers.products.addProduct);
 
-router.route('/api/products/:id').get((req, res, next) => {
-  const productId = req.params.id
-  const product = products.find((product) => product.id === +productId);
-    try {
-      res.json(product);
-    }
-    catch(err) {
-      console.log(err)
-    }
-    next();
-  });
+router.route('/api/products/:id').get(Controllers.products.getProduct);
 
-router.route('/api/products/:id/reviews').get((req, res, next) => {
-  const productId = req.params.id
-  const product = products.find((product) => product.id === +productId);
-  try {
-    const reviews = product.reviews || [];
-    res.json(reviews);
-  }
-  catch(err) {
-    console.log(err)
-  }
-  next();
-});
+router.route('/api/products/:id/reviews').get(Controllers.products.getReviews);
 
 module.exports = router
