@@ -1,5 +1,8 @@
-const router = require('express').Router();
 const Controllers = require('../controllers');
+const router = require('./auth.route');
+const { checkAuth } = require('../middlewares');
+
+router.use(checkAuth);
 
 router.route('/api/users').get(Controllers.users.getAllUsers);
 
