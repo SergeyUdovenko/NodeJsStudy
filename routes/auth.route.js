@@ -8,20 +8,21 @@ const passport = require('passport');
 
 const Controllers = require('../controllers');
 
-router.route('/auth').post(Controllers.auth.login);
-
 const params = {
   session: false
 };
-router.route('/auth/local')
+
+router.route('/').post(Controllers.auth.login);
+
+router.route('/local')
   .post(passport.authenticate('local', params),
     Controllers.auth.login
   );
 
-router.route('/auth/facebook').post(passport.authenticate('facebook'),
+router.route('/facebook').post(passport.authenticate('facebook'),
   Controllers.auth.login
 )
-router.route('/auth/google').post(passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }),
+router.route('/google').post(passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login'] }),
   Controllers.auth.login
 )
 module.exports = router;

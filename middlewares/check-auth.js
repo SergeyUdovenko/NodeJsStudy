@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const config = require('../config');
 const checkAuth = (req, res, next) => {
   const token = req.body.token || req.headers['x-access-token'];
+  console.log(token);
   if (token) {
     jwt.verify(token, config.tokenSecret, function (err) {
       if (err) {
