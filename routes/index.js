@@ -1,14 +1,16 @@
-const router = require('express').Router();
-const Controllers = require('../controllers');
+const express = require('express');
+const router = express.Router();
 
-router.route('/api/users').get(Controllers.users.getAllUsers);
+const auth = require('./auth.route');
+const products = require('./products.route');
+const users = require('./users.route')
+const { checkAuth } = require('../middlewares');
 
-router.route('/api/products')
-  .get(Controllers.products.getAllProducts)
-  .post(Controllers.products.addProduct);
+router.use('/auth', auth)
 
-router.route('/api/products/:id').get(Controllers.products.getProduct);
+router.use(checkAuth);
 
-router.route('/api/products/:id/reviews').get(Controllers.products.getReviews);
+router.use('/products', products)
+router.use('/users', users)
 
 module.exports = router
