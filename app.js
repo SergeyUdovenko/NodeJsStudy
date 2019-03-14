@@ -33,5 +33,11 @@ models.Reviews.findAll({
     raw: true
   })
   .then(data => console.log(data))
-
+models.Users.findAll({
+    attributes: ['id', 'name', 'type'],
+    raw: true
+  })
+  .then(data => {
+    console.log(data);
+  })
 module.exports = app;
