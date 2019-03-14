@@ -6,9 +6,9 @@ const products = require('./products.route');
 const users = require('./users.route')
 const { checkAuth } = require('../middlewares');
 
-router.use('/auth', auth)
+//router.use('/auth', auth)
 
-router.use(checkAuth);
+//router.use(checkAuth);
 
 router.use('/products', products)
 router.use('/users', users)
