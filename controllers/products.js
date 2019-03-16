@@ -34,7 +34,10 @@ const getReviews = (req, res, next) => {
 
 const addProduct = (req, res, next) => {
   const product = req.body;
-  return Models.Products.addColumn(product)
+  return Models.Products.create({
+    name: product.name,
+    price: +product.price
+  })
     .then(product => res.json(product))
     .catch(next);
 };
