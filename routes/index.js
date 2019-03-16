@@ -1,16 +1,16 @@
 const express = require('express');
+const Controller = require('../controllers');
+
 const router = express.Router();
 
-const auth = require('./auth.route');
-const products = require('./products.route');
-const users = require('./users.route')
-const { checkAuth } = require('../middlewares');
+//localhost:3001/api/cities
+router.route('/init-city').get(Controller.city.init);
+router.route('/cities/random').get(Controller.city.getRandom);
+router.route('/cities').get(Controller.city.getAll);
+router.route('/cities').post(Controller.city.create);
+router.route('/cities/:id').delete(Controller.city.delete);
 
-//router.use('/auth', auth)
+router.route('/init-user', Controller.users.init);
+router.route('/users/:id', Controller.users.delete);
 
-//router.use(checkAuth);
-
-router.use('/products', products)
-router.use('/users', users)
-
-module.exports = router
+module.exports = router;

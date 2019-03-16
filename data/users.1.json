@@ -1,0 +1,26 @@
+[
+  {
+    "firstName": "Serhii",
+    "lastName": "Volkov",
+    "age": 18,
+    "hasCar": true
+  },
+  {
+    "firstName": "Andrii",
+    "lastName": "petrov",
+    "age": 34,
+    "hasCar": false
+  },
+  {
+    "firstName": "Elon",
+    "lastName": "Musk",
+    "age": 23,
+    "hasCar": true
+  },
+  {
+    "firstName": "Albert",
+    "lastName": "Einsteen",
+    "age": 41,
+    "hasCar": false
+  }
+]

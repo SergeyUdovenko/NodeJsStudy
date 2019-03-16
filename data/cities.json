@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Kiyv",
+    "country": "Ukraine",
+    "capital": true,
+    "location": {
+      "lat": -7.2119433,
+      "long": 108.1591732
+    }
+
+  },
+  {
+    "name": "Kharkiv",
+    "country": "Ukraine",
+    "capital": false,
+    "location": {
+      "lat": -30.2915042,
+      "long": -54.5218074
+    }
+
+  },
+  {
+    "name": "Dnipro",
+    "country": "Ukraine",
+    "capital": false,
+    "location": {
+      "lat": 37.7852875,
+      "long": 127.0458453
+    }
+
+  },
+  {
+    "name": "Manchester",
+    "country": "GB",
+    "capital": false,
+    "location": {
+      "lat": 25.8006926,
+      "long": 55.9761994
+    }
+
+  }
+]

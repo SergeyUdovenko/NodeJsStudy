@@ -1,0 +1,1 @@
+module.exports.randomizer = (length) => Math.floor(Math.random()*10);

@@ -1,43 +1,20 @@
 const express = require('express');
-const app = express();
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const config = require('./config').mongoCongif;
+const routers = require('./routes');
+
+const server = express();
+server.use(bodyParser.json());
+server.use('/api', routers);
+
+mongoose.connect(`${config.url}/${config.dbName}`, { useNewUrlParser: true });
+const db = mongoose.connection;
+
+db.on('error', error => console.log(error));
+db.once('open', () => console.log('Connected to DB'));
 
 
-const models = require('./models')
-// const Sequelize = require('sequelize');
-//
-// const sequelize = new Sequelize('mainDB', null, null, {
-//   dialect: "sqlite",
-//   storage: './db/test.sqlite',
-// });
 
 
-models.sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
-
-models.Products.findAll({
-    attributes: ['id', 'name', 'price'],
-    raw: true
-  })
-  .then(data => {
-    console.log(data);
-  })
-
-models.Reviews.findAll({
-    attributes: ['title'],
-    raw: true
-  })
-  .then(data => console.log(data))
-models.Users.findAll({
-    attributes: ['id', 'name', 'type'],
-    raw: true
-  })
-  .then(data => {
-    console.log(data);
-  })
-module.exports = app;
+server.listen(3001, ()=> console.log('Server start on port :3001'));
