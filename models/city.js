@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const City = new Schema({
   name: String,
-  country: {type: String, dafault: ''},
-  capital: {type: Boolean, dafault: false},
+  country: {type: String, default: ''},
+  capital: {type: Boolean, default: false},
   location: Object
 });
 

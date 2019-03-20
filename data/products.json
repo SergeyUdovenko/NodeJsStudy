@@ -1,38 +1,41 @@
-{
-    "products": [{
-            "id": 1,
-            "name": "Supreme T-Shirt",
-            "brand": "Supreme",
-            "price": 99.99,
-            "options": [{
-                    "color": "blue"
-                },
-                {
-                    "size": "XL"
-                }
-            ],
-            "reviews": [
-                "lorem",
-                "impsum",
-                "dolorem"
-            ]
-        },
-        {
-            "id": 2,
-            "reviews": [
-                "lorem1",
-                "impsum1",
-                "dolorem1"
-            ]
-        },
-        
-        {
-            "id": 3,
-            "reviews": [
-                "lorem2",
-                "impsum2",
-                "dolorem2"
-            ]
-        }
-    ]
-}
+[{
+		"id": 1,
+		"name": "Supreme T-Shirt",
+		"brand": "Supreme",
+		"price": 99.99,
+		"options": [{
+				"color": "blue"
+			},
+			{
+				"size": "XL"
+			}
+		]
+	},
+	{
+		"id": 2,
+		"name": "Supreme T-Shirt",
+		"brand": "Supreme",
+		"price": 99.99,
+		"options": [{
+				"color": "blue"
+			},
+			{
+				"size": "XL"
+			}
+		]
+	},
+
+	{
+		"id": 3,
+		"name": "Supreme T-Shirt",
+		"brand": "Supreme",
+		"price": 99.99,
+		"options": [{
+				"color": "blue"
+			},
+			{
+				"size": "XL"
+			}
+		]
+	}
+]

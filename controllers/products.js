@@ -1,3 +1,36 @@
+const ProductModel = require('../models').ProductModel;
+const products = require('../data/products');
+
+module.exports.init = (req, res) => {
+
+	ProductModel.create(products, (error, data) =>{
+    if (error) console.log(error);
+    res.json(data)
+  })
+};
+module.exports.getAll = (req, res) => {
+
+	ProductModel.find((error, data) => {
+	  if (error) {
+		console.log('Error in `getAllCities` controller');
+		return;
+	  }
+  
+	  res.json(data)
+	})
+  };
+module.exports.delete = (req, res) => {
+  const id = req.params.id;
+
+  ProductModel.findOneAndRemove({_id: id}).exec((error, data)=>{
+    if (error) {
+      res.status(500).end('Error: fail to find user with id: ', id)
+    }
+    res.end(`Success: Product with id: ${id} removed`)
+  })
+};
+
+
 // const Models = require('../models');
 // Models.sequelize
 //   .authenticate()

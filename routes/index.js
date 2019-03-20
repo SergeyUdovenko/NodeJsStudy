@@ -3,14 +3,15 @@ const Controller = require('../controllers');
 
 const router = express.Router();
 
-//localhost:3001/api/cities
-router.route('/init-city').get(Controller.city.init);
-router.route('/cities/random').get(Controller.city.getRandom);
-router.route('/cities').get(Controller.city.getAll);
-router.route('/cities').post(Controller.city.create);
-router.route('/cities/:id').delete(Controller.city.delete);
+const cities = require('./cities.route');
+const users = require('./users.route');
+const products = require('./products.route')
 
-router.route('/init-user', Controller.users.init);
-router.route('/users/:id', Controller.users.delete);
+//localhost:3001/api/cities
+
+router.use('/users', users);
+router.use('/cities', cities);
+router.use('/products', products);
+
 
 module.exports = router;

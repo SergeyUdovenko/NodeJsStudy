@@ -12,7 +12,7 @@ module.exports.getRandom = (req, res) => {
 
     const db = client.db(config.mongoCongif.dbName);
     const collection = db.collection('cities');
-
+	console.log(db.collection('cities'));
     const cities = collection
       .find()
       .limit(-1)
