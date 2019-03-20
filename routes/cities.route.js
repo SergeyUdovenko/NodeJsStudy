@@ -8,6 +8,7 @@ router.route('/init-city').get(Controller.city.init);
 router.route('/random').get(Controller.city.getRandom);
 router.route('/').get(Controller.city.getAll);
 router.route('/').post(Controller.city.create);
+router.route('/:id').put(Controller.city.update);
 router.route('/:id').delete(Controller.city.delete);
 
 module.exports = router;

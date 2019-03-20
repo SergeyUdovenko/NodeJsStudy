@@ -20,15 +20,3 @@ module.exports.delete = (req, res) => {
     res.end(`Success: User with id: ${id} removed`)
   })
 };
-// const Models = require('../models');
-
-// const getAllUsers = (req, res, next) => Models.Users.findAll({
-//   attributes: ['id', 'name', 'type'],
-//   raw: true
-// })
-//   .then(users => res.json(users))
-//   .catch(next);
-
-// module.exports = {
-//   getAllUsers
-// };

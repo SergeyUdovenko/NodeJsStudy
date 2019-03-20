@@ -38,7 +38,15 @@ module.exports.getAll = (req, res) => {
     res.json(data)
   })
 };
-
+module.exports.update = (req, res) => {
+	const id = req.params.id;
+	CityModel.findByIdAndUpdate({_id: id}, req.body, {new: true}).exec((error)=>{
+		if (error) {
+		  res.status(500).end('Error: fail to find City with id: ', id)
+		}
+		res.end(`Success: City with id: ${id} updated`)
+	  })
+}
 module.exports.create = (req, res) => {
 
   const user = req.body;
