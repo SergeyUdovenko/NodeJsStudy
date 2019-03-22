@@ -1,1 +1,1 @@
-module.exports.randomizer = (length) => Math.floor(Math.random()*3);
+module.exports.randomizer = (count) => Math.floor(Math.random() * count)

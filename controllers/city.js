@@ -9,21 +9,26 @@ module.exports.getRandom = (req, res) => {
 	MongoClient.connect(config.mongoCongif.url, function (error, client) {
 		assert.equal(null, error);
 		console.log('We are connected... from controller')
+		let cityCounts;
+		CityModel.count({}, function (err, count) {
+			cityCounts = count
+		}).then(() => {
 
-		const db = client.db(config.mongoCongif.dbName);
-		const collection = db.collection('cities');
-		console.log(db.collection('cities'));
-		const cities = collection
-			.find()
-			.limit(-1)
-			.skip(utils.randomizer());
+			const db = client.db(config.mongoCongif.dbName);
+			const collection = db.collection('cities');
 
-		cities.toArray((error, data) => {
-			assert.equal(null, error);
-			res.json(data)
+			const cities = collection
+				.find()
+				.limit(-1)
+				.skip(utils.randomizer(cityCounts));
+
+			cities.toArray((error, data) => {
+				assert.equal(null, error);
+				res.json(data)
+			});
+
+			client.close();
 		});
-
-		client.close();
 	});
 }
 
@@ -56,14 +61,14 @@ module.exports.update = (req, res) => {
 }
 module.exports.create = (req, res) => {
 
-	const user = req.body;
+	const city = req.body;
 
-	CityModel.create(user, (error, data) => {
+	CityModel.create(city, (error, data) => {
 		if (error) {
-			res.status(500).end('Error: fail to create City: ')
+			res.status(500).end('Error: fail to create City: ' + error)
+		} else {
+			res.json(data)
 		}
-
-		res.json(user)
 	})
 };
 

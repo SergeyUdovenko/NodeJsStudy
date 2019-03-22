@@ -15,13 +15,13 @@ const City = new Schema({
 	lastModifiedDate: Date,
 });
 
-City.pre('save', function (doc, next) {
-	this.lastModifiedDate = Date.now();
+City.post('save', function (doc, next) {
+	doc.lastModifiedDate = Date.now();
 	next();
 });
 
-City.pre('update', function (doc,next) {
-	this.lastModifiedDate = Date.now();
+City.pre('findOneAndUpdate', function (next) {
+	this.update({},{ $set: { lastModifiedDate: new Date() } });
 	next();
 });
 
