@@ -1,12 +1,5 @@
 const Models = require('../models');
-Models.sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
+
 const getAllProducts = (req, res, next) => Models.Products.findAll({
     attributes: ['id', 'name', 'price'],
     raw: true
@@ -34,10 +27,7 @@ const getReviews = (req, res, next) => {
 
 const addProduct = (req, res, next) => {
   const product = req.body;
-  return Models.Products.create({
-    name: product.name,
-    price: +product.price
-  })
+  return Models.Products.create(product)
     .then(product => res.json(product))
     .catch(next);
 };

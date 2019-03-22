@@ -3,13 +3,6 @@ const app = express();
 
 
 const models = require('./models')
-// const Sequelize = require('sequelize');
-//
-// const sequelize = new Sequelize('mainDB', null, null, {
-//   dialect: "sqlite",
-//   storage: './db/test.sqlite',
-// });
-
 
 models.sequelize
   .authenticate()
