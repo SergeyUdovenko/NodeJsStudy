@@ -1,5 +1,4 @@
----
-swagger: "2.0"
+swagger: '2.0'
 info:
   description: |
     NodeJsStudy Homework8 swagger
@@ -8,53 +7,44 @@ info:
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-host: virtserver.swaggerhub.com
-basePath: /SergeyUdovenko/swagger-hub-api/1.0.0
+host: localhost:3001
+basePath: /api
 tags:
 - name: cities
   description: Cities information from HomeWork7
-- name: users
+- name: user
   description: Information about users from HomeWork7
-- name: products
+- name: product
   description: Information about products from HomeWork7
 schemes:
-- https
-- http
+  - http
 paths:
   /cities:
     get:
       tags:
-      - cities
+        - cities
       summary: Get list of all cities
       operationId: getAll
       produces:
-      - application/json
-      parameters: []
+        - application/json
       responses:
         200:
           description: List of all cities
-          examples:
-            application/json:
-            - country: Ukraine
-              capital: true
-              _id: 5c97aa698ce78f2bd8a5be33
-              name: Kiyv
-              location:
-                lat: -7.2119433
-                long: 108.1591732
           schema:
             $ref: '#/definitions/Cities'
-        500:
+          examples:
+            application/json: [{"country":"Ukraine","capital":true,"_id":"5c97aa698ce78f2bd8a5be33","name":"Kiyv","location":{"lat":-7.2119433,"long":108.1591732}}]
+        500: 
           description: Unable to get all cities
-    post:
+    post: 
       tags:
-      - cities
+        - cities
       summary: Create new city
       operationId: create
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
       - in: body
         name: body
@@ -65,19 +55,12 @@ paths:
       responses:
         200:
           description: City successfully added
-          examples:
-            application/json:
-            - country: Ukraine
-              capital: true
-              _id: 5c97aa698ce78f2bd8a5be33
-              name: Kiyv
-              location:
-                lat: -7.2119433
-                long: 108.1591732
           schema:
             $ref: '#/definitions/City'
+          examples:
+            application/json: [{"country":"Ukraine","capital":true,"_id":"5c97aa698ce78f2bd8a5be33","name":"Kiyv","location":{"lat":-7.2119433,"long":108.1591732}}]
         500:
-          description: 'Error: fail to create City'
+          description: "Error: fail to create City"
   /cities/{id}:
     put:
       tags:
@@ -85,47 +68,47 @@ paths:
       summary: Update an existing city
       operationId: update
       consumes:
-      - application/json
+        - application/json
       produces:
-      - application/json
+        - application/json
       parameters:
-      - name: id
-        in: path
-        description: City id to update
-        required: true
-        type: string
-      - in: body
-        name: body
-        description: New city object
-        required: true
-        schema:
-          type: object
+        - in: path
+          name: id
+          description: City id to update
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: New city object
+          required: true
+          schema:
+            type: object
       responses:
         200:
-          description: 'Success: City updated'
+          description: "Success: City updated"
           schema:
             $ref: '#/definitions/City'
         500:
-          description: 'Error: fail to create City'
+          description: "Error: fail to create City"
     delete:
       tags:
       - cities
       summary: Delete a city
       operationId: deleteCity
       produces:
-      - application/json
+        - application/json
       parameters:
       - name: id
         in: path
-        description: City id to delete
+        description: "City id to delete"
         required: true
         type: string
       responses:
         200:
-          description: 'Success: City deleted'
+          description: "Success: City deleted"
         500:
-          description: 'Error: fail to find City'
-  /cities/random:
+          description: "Error: fail to find City"
+  /cities/random: 
     get:
       tags:
       - cities
@@ -133,21 +116,13 @@ paths:
       operationId: getRandom
       produces:
       - application/json
-      parameters: []
       responses:
         200:
           description: Random city
-          examples:
-            application/json:
-            - country: Ukraine
-              capital: true
-              _id: 5c97aa698ce78f2bd8a5be33
-              name: Kiyv
-              location:
-                lat: -7.2119433
-                long: 108.1591732
           schema:
             $ref: '#/definitions/City'
+          examples:
+            application/json: [{"country":"Ukraine","capital":true,"_id":"5c97aa698ce78f2bd8a5be33","name":"Kiyv","location":{"lat":-7.2119433,"long":108.1591732}}]
   /cities/init-city:
     get:
       tags:
@@ -156,21 +131,13 @@ paths:
       operationId: init
       produces:
       - application/json
-      parameters: []
       responses:
         200:
           description: Create initial pull of cities
-          examples:
-            application/json:
-            - country: Ukraine
-              capital: true
-              _id: 5c97aa698ce78f2bd8a5be33
-              name: Kiyv
-              location:
-                lat: -7.2119433
-                long: 108.1591732
           schema:
             $ref: '#/definitions/Cities'
+          examples:
+            application/json: [{"country":"Ukraine","capital":true,"_id":"5c97aa698ce78f2bd8a5be33","name":"Kiyv","location":{"lat":-7.2119433,"long":108.1591732}}]
   /users/{id}:
     delete:
       tags:
@@ -178,18 +145,18 @@ paths:
       summary: Delete a user
       operationId: deleteUser
       produces:
-      - application/json
+        - application/json
       parameters:
       - name: id
         in: path
-        description: User id to delete
+        description: "User id to delete"
         required: true
         type: string
       responses:
         200:
-          description: 'Success: User deleted'
+          description: "Success: User deleted"
         500:
-          description: 'Error: fail to find User'
+          description: "Error: fail to find User"
   /users/init-user:
     get:
       tags:
@@ -198,44 +165,31 @@ paths:
       operationId: initUser
       produces:
       - application/json
-      parameters: []
       responses:
         200:
           description: Create initial pull of users
           examples:
-            application/json:
-            - hasCar: true
-              _id: 5c97ad738ce78f2bd8a5be3a
-              firstName: Serhii
-              lastName: Volkov
-              age: 18"
+            application/json: [{ "hasCar": true,"_id": "5c97ad738ce78f2bd8a5be3a","firstName": "Serhii", "lastName": "Volkov","age": 18}]
           schema:
             $ref: '#/definitions/Users'
   /products:
-    get:
+    get: 
       tags:
       - products
       summary: Get all products
       operationId: getAllProducts
       produces:
-      - application/json
-      parameters: []
+        - application/json
       responses:
         200:
           description: List of all products
-          examples:
-            application/json:
-            - options:
-              - color: blue
-              - size: XL
-              _id: 5c97ad0e8ce78f2bd8a5be37
-              name: Supreme T-Shirt
-              brand: Supreme
-              price: 99.99"
           schema:
             $ref: '#/definitions/Products'
-        500:
+          examples:
+            application/json: [{"options":[{"color":"blue"},{"size":"XL"}],"_id":"5c97ad0e8ce78f2bd8a5be37","name":"Supreme T-Shirt","brand":"Supreme","price":99.99}]
+        500: 
           description: Error in `getAllProducts` controller
+      
   /products/{id}:
     delete:
       tags:
@@ -243,18 +197,18 @@ paths:
       summary: Delete a product
       operationId: deleteProduct
       produces:
-      - application/json
+        - application/json
       parameters:
       - name: id
         in: path
-        description: Product id to delete
+        description: "Product id to delete"
         required: true
         type: string
       responses:
         200:
-          description: 'Success: Product deleted'
+          description: "Success: Product deleted"
         500:
-          description: 'Error: fail to find User'
+          description: "Error: fail to find User"
   /products/init-product:
     get:
       tags:
@@ -263,21 +217,13 @@ paths:
       operationId: initProduct
       produces:
       - application/json
-      parameters: []
       responses:
         200:
           description: Create initial pull of products
-          examples:
-            application/json:
-            - options:
-              - color: blue
-              - size: XL
-              _id: 5c97ad0e8ce78f2bd8a5be37
-              name: Supreme T-Shirt
-              brand: Supreme
-              price: 99.99"
           schema:
             $ref: '#/definitions/Products'
+          examples:
+            application/json: [{"options":[{"color":"blue"},{"size":"XL"}],"_id":"5c97ad0e8ce78f2bd8a5be37","name":"Supreme T-Shirt","brand":"Supreme","price":99.99}]
 definitions:
   User:
     type: object
@@ -297,7 +243,7 @@ definitions:
         example: Musk
       age:
         type: number
-        example: 43.0
+        example: 43
       hasCar:
         type: boolean
         example: true
@@ -313,25 +259,33 @@ definitions:
     properties:
       _id:
         type: string
-        example: 5c97aa698ce78f2bd8a5be33
+        example: "5c97aa698ce78f2bd8a5be33"
       name:
         type: string
         example: Kiyv
       country:
         type: string
-        example: Ukraine
+        example: "Ukraine"
       capital:
         type: boolean
         example: true
       location:
-        $ref: '#/definitions/City_location'
+        type: object
+        properties:
+          lat:
+            type: number
+            example: -7.2119433
+          long:
+            type: number
+            example: 108.1591732
+      
   Cities:
     type: array
     items:
       $ref: '#/definitions/City'
-  Product:
+  Product: 
     type: object
-    required:
+    required: 
     - _id
     - name
     properties:
@@ -344,28 +298,25 @@ definitions:
       brand:
         type: string
         example: Supreme
-      price:
+      price: 
         type: number
         example: 99.99
-      options:
-        $ref: '#/definitions/Product_options'
+      options: 
+        type: object
+        properties:
+          color: 
+            type: string
+            example: blue
+          size:
+            type: string
+            example: XL
   Products:
     type: array
     items:
       $ref: '#/definitions/Product'
-  City_location:
-    properties:
-      lat:
-        type: number
-        example: -7.2119433
-      long:
-        type: number
-        example: 108.1591732
-  Product_options:
-    properties:
-      color:
-        type: string
-        example: blue
-      size:
-        type: string
-        example: XL
+# Added by API Auto Mocking Plugin
+# host: virtserver.swaggerhub.com
+# basePath: /SergeyUdovenko/swagger-hub-api/1.0.0
+# schemes:
+#  - https
+#  - http

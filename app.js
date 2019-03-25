@@ -3,9 +3,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const config = require('./config').mongoCongif;
 const routers = require('./routes');
-const yamlHandler = require('yamljs');
 const swagger = require('swagger-ui-express');
-const swaggerConfig = yamlHandler.load('./config/swagger.yaml');
+const swaggerConfig = require('./config/swagger.json');
 
 
 const server = express();
