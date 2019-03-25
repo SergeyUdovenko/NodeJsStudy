@@ -1,81 +1,31 @@
 const ProductModel = require('../models').ProductModel;
 const products = require('../data/products');
 
-module.exports.init = (req, res) => {
+module.exports.initProduct = (req, res) => {
 
 	ProductModel.create(products, (error, data) =>{
     if (error) console.log(error);
     res.json(data)
   })
 };
-module.exports.getAll = (req, res) => {
+module.exports.getAllProducts = (req, res) => {
 
 	ProductModel.find((error, data) => {
 	  if (error) {
-		console.log('Error in `getAllCities` controller');
+		console.log('Error in `getAllProducts` controller');
 		return;
 	  }
   
 	  res.json(data)
 	})
   };
-module.exports.delete = (req, res) => {
+module.exports.deleteProduct = (req, res) => {
   const id = req.params.id;
 
   ProductModel.findOneAndRemove({_id: id}).exec((error, data)=>{
     if (error) {
-      res.status(500).end('Error: fail to find user with id: ', id)
+      res.status(500).end('Error: fail to find product with id: ', id)
     }
     res.end(`Success: Product with id: ${id} removed`)
   })
 };
-
-
-// const Models = require('../models');
-// Models.sequelize
-//   .authenticate()
-//   .then(() => {
-//     console.log('Connection has been established successfully.');
-//   })
-//   .catch(err => {
-//     console.error('Unable to connect to the database:', err);
-//   });
-// const getAllProducts = (req, res, next) => Models.Products.findAll({
-//     attributes: ['id', 'name', 'price'],
-//     raw: true
-//   })
-//   .then(products => res.json(products))
-//   .catch(next);
-  
-// const getProduct = (req, res, next) => Models.Products.findOne({ 
-//   where: {id: req.params.id}, 
-//   attributes: ['id', 'name', 'price'],
-//   raw: true
-// })
-//   .then(product => res.json(product))
-//   .catch(next);
-
-// const getReviews = (req, res, next) => {
-//   return Models.Reviews.findAll({
-//     where: {product_id: req.params.id},
-//     attributes: ['title'],
-//     raw: true
-//   })
-//     .then(reviews => res.json(reviews))
-//     .catch(next);
-// };
-
-// const addProduct = (req, res, next) => {
-//   const product = req.body;
-//   return Models.Products.addColumn(product)
-//     .then(product => res.json(product))
-//     .catch(next);
-// };
-
-
-// module.exports = {
-//   getAllProducts,
-//   getProduct,
-//   getReviews,
-//   addProduct
-// };

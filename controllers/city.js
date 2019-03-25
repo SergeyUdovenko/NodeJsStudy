@@ -37,6 +37,7 @@ module.exports.getAll = (req, res) => {
 	CityModel.find((error, data) => {
 		if (error) {
 			console.log('Error in `getAllCities` controller');
+			res.status(500).end('Error: Unable to get all cities')
 			return;
 		}
 
@@ -68,6 +69,7 @@ module.exports.create = (req, res) => {
 			res.status(500).end('Error: fail to create City: ' + error)
 		} else {
 			res.json(data)
+			res.end('City successfully added')
 		}
 	})
 };

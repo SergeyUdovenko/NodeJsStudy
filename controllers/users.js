@@ -2,7 +2,7 @@
 const UserModel = require('../models').UserModel;
 const users = require('../data/users.1');
 
-module.exports.init = (req, res) => {
+module.exports.initUser = (req, res) => {
 
   UserModel.create(users, (error, data) =>{
     if (error) console.log(error);
@@ -10,7 +10,7 @@ module.exports.init = (req, res) => {
   })
 };
 
-module.exports.delete = (req, res) => {
+module.exports.deleteUser = (req, res) => {
   const id = req.params.id;
 
   UserModel.findOneAndRemove({_id: id}).exec((error, data)=>{
