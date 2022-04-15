@@ -1,10 +1,10 @@
-const data = require('../data/users');
-const users = data.users || [];
-
-const getAllUsers = new Promise((resolve) => {
-  resolve(users)
-});
-
-module.exports = {
-  getAllUsers
+module.exports = (sequelize, DataTypes) => {
+  var Users = sequelize.define('Users', {
+    name: DataTypes.STRING,
+    type: DataTypes.STRING,
+  }, {});
+  Users.associate = function(models) {
+    // associations can be defined here
+  };
+  return Users;
 };
